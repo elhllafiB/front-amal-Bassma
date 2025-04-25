@@ -1,0 +1,61 @@
+<div class="form-container">
+  <div *ngFor="let question of questions; let i = index" class="question-card">
+    <div class="blue-accent"></div>
+    <div class="question-content">
+      <div class="question-header">
+
+        <div class="question-input-container">
+          <input
+            type="text"
+            [(ngModel)]="question.title"
+            class="question-input"
+            placeholder="Question sans titre">
+        </div>
+
+        <div class="question-type-dropdown">
+          <div class="dropdown-display">
+            <span>{{ question.type }}</span>
+          </div>
+          <select [(ngModel)]="question.type" class="hidden-select">
+            <option *ngFor="let type of questionTypes" [value]="type">{{ type }}</option>
+          </select>
+        </div>
+
+      </div>
+
+      <div class="answer-section">
+        <div *ngIf="question.type === 'Paragraphe'">
+          <div class="answer-label">Réponse longue</div>
+          <input type="text" class="question-input user-input" placeholder="Réponse utilisateur">
+        </div>
+
+        <div *ngIf="question.type === 'Choix multiple'">
+          <div class="answer-label">Choix multiples</div>
+          <div *ngFor="let option of question.options; let j = index" class="checkbox-option">
+            <div class="custom-checkbox">
+              <input type="checkbox" [id]="'option-' + i + '-' + j">
+              <label [for]="'option-' + i + '-' + j" class="checkbox-label"></label>
+            </div>
+            <input type="text" [(ngModel)]="question.options[j]" class="question-input" placeholder="Option">
+            <button (click)="removeOption(question, j)" class="icon-button">
+              <span class="material-icons-round">close</span>
+            </button>
+          </div>
+          <button (click)="addOption(question)" class="icon-button">
+            <span class="material-icons-round">add</span>Ajouter une option
+          </button>
+        </div>
+      </div>
+
+      <div class="question-footer">
+        <button (click)="removeQuestion(i)" class="icon-button">
+          <span class="material-icons-round">delete</span>Supprimer la question
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <button (click)="addQuestion()" class="icon-button add-question-btn">
+    <span class="material-icons-round">add_circle_outline</span>Ajouter une question
+  </button>
+</div>
